@@ -1,0 +1,239 @@
+/* Font import and global reset */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Body styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000;
+    overflow: hidden; /* Prevent scrollbars from appearing due to animations */
+}
+
+/* Section styles */
+section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #000;
+}
+
+/* Animated gradient effect */
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#000, rgb(75, 146, 75), #000);
+    animation: animate 0s linear infinite;
+    z-index: 1;
+}
+
+/* Animation keyframes */
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* Styling for individual spans (grid lines) */
+section span {
+    position: relative;
+    display: block;
+    background: #181818;
+    z-index: 2;
+    transition: 1.5s;
+}
+
+section span:hover {
+    background: rgb(84, 124, 84);
+}
+
+/* Header styling */
+header {
+    position: fixed; /* Fix the header at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #004d00; /* Dark green */
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #00ff22; /* Green border */
+    z-index: 3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #fff; /* White text */
+}
+
+header .username {
+    
+    font-size: 30px;
+    color: #ffffff; /* Green text */
+    align-items: baseline;
+}
+
+header .logout {
+    font-size: 20px;
+    color: #00ff22; /* Green text */
+    text-decoration: none;
+}
+
+header .logout:hover {
+    text-decoration: underline;
+}
+
+/* Main content styling */
+main {
+    position: relative;
+    top: 80px; /* Adjust based on header height */
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    z-index: 3;
+}
+
+/* Custom File Input Styles */
+.custom-file-input {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #004d00; /* Dark green */
+    border-radius: 8px;
+    padding: 10px 20px;
+    text-align: center;
+    border: 1px solid #00ff22; /* Green border */
+}
+
+.custom-file-input input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-file-input label {
+    display: block;
+    color: #00ff22; /* Green text */
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0;
+    text-transform: uppercase;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-file-input:hover label {
+    background-color: #00cc00; /* Darker green */
+    color: #fff; /* White text */
+}
+
+
+/* Form styling */
+form {
+    background-color: #004d00; /* Dark green */
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"] {
+    background-color: #fff; /* White background for inputs */
+    color: #000; /* Black text for inputs */
+    border: 1px solid #00ff22; /* Green border */
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    background-color: #00ff22; /* Bright green */
+    color: #000; /* Black text */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+form input[type="submit"]:hover {
+    background-color: #00cc00; /* Darker green */
+}
+
+/* QR Code container */
+#qr-code {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* Center QR code horizontally */
+    align-items: center; /* Center QR code vertically */
+    width: 100%;
+}
+
+/* QR Code Decoding Section */
+#qr-decoding {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #050505; /* Dark green */
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+#qr-decoding input[type="file"] {
+    background-color: #fff; /* White background */
+    color: #1ee438; /* Black text */
+    border: 1px solid #00ff22; /* Green border */
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#qr-decoding canvas {
+    display: none;
+}
+
+#qr-decoding p {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #00ff22; /* Green text */
+}
