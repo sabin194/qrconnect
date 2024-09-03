@@ -8,8 +8,8 @@ session_start();
 
 // Database connection parameters
 $servername = "localhost";
-$username = "root";  // Default XAMPP MySQL username
-$password = "";      // Default XAMPP MySQL password
+$username = "root";  
+$password = "";     
 $dbname = "qrsignup";
 
 // Create connection
@@ -20,7 +20,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$loginMessage = ""; // Initialize the message variable
+$loginMessage = ""; 
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashed_password)) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
-            header("Location: qrcode.php"); // Redirect to the QR code page
-            exit(); // Ensure no further code is executed
+            header("Location: qrcode.php"); 
+            exit(); 
         } else {
             $loginMessage = "Invalid email or password.";
         }
@@ -58,7 +58,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="./login.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="./login.css"> 
 </head>
 <body>
     <div class="login-container">

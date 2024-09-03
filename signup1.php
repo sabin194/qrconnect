@@ -5,8 +5,8 @@ ini_set('display_errors', 1);
 
 // Database connection parameters
 $servername = "localhost";
-$username = "root";  // Default XAMPP MySQL username
-$password = "";      // Default XAMPP MySQL password
+$username = "root";  
+$password = "";      
 $dbname = "qrsignup";
 
 // Create connection
@@ -41,7 +41,7 @@ if ($conn->query($sql) === FALSE) {
     die("Error creating table: " . $conn->error);
 }
 
-$submissionMessage = ""; // Initialize the message variable
+$submissionMessage = ""; 
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

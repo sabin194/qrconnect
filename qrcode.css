@@ -16,7 +16,7 @@ body {
     align-items: center;
     min-height: 100vh;
     background: #000;
-    overflow: hidden; /* Prevent scrollbars from appearing due to animations */
+    overflow: hidden; 
 }
 
 /* Section styles */
@@ -69,36 +69,36 @@ section span:hover {
 
 /* Header styling */
 header {
-    position: fixed; /* Fix the header at the top */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #004d00; /* Dark green */
+    background-color: #004d00; 
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #00ff22; /* Green border */
+    border-bottom: 2px solid #00ff22; 
     z-index: 3;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #fff; /* White text */
+    color: #fff; 
 }
 
 header .username {
     
     font-size: 30px;
-    color: #ffffff; /* Green text */
+    color: #ffffff; 
     align-items: baseline;
 }
 
 header .logout {
     font-size: 20px;
-    color: #00ff22; /* Green text */
+    color: #00ff22; 
     text-decoration: none;
 }
 
@@ -109,13 +109,13 @@ header .logout:hover {
 /* Main content styling */
 main {
     position: relative;
-    top: 80px; /* Adjust based on header height */
+    top: 80px; 
     padding: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.5); 
     border-radius: 8px;
     width: 90%;
     max-width: 600px;
@@ -127,11 +127,11 @@ main {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    background-color: #004d00; /* Dark green */
+    background-color: #004d00; 
     border-radius: 8px;
     padding: 10px 20px;
     text-align: center;
-    border: 1px solid #00ff22; /* Green border */
+    border: 1px solid #00ff22; 
 }
 
 .custom-file-input input[type="file"] {
@@ -144,7 +144,7 @@ main {
 
 .custom-file-input label {
     display: block;
-    color: #00ff22; /* Green text */
+    color: #00ff22; 
     font-size: 1em;
     font-weight: 500;
     margin: 0;
@@ -153,14 +153,14 @@ main {
 }
 
 .custom-file-input:hover label {
-    background-color: #00cc00; /* Darker green */
-    color: #fff; /* White text */
+    background-color: #00cc00; 
+    color: #fff; 
 }
 
 
 /* Form styling */
 form {
-    background-color: #004d00; /* Dark green */
+    background-color: #004d00;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
@@ -170,9 +170,9 @@ form {
 form input[type="text"],
 form input[type="email"],
 form input[type="tel"] {
-    background-color: #fff; /* White background for inputs */
-    color: #000; /* Black text for inputs */
-    border: 1px solid #00ff22; /* Green border */
+    background-color: #fff; 
+    color: #000; 
+    border: 1px solid #00ff22; 
     border-radius: 4px;
     padding: 10px;
     margin: 5px 0;
@@ -181,8 +181,8 @@ form input[type="tel"] {
 }
 
 form input[type="submit"] {
-    background-color: #00ff22; /* Bright green */
-    color: #000; /* Black text */
+    background-color: #00ff22; 
+    color: #000; 
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
@@ -191,15 +191,15 @@ form input[type="submit"] {
 }
 
 form input[type="submit"]:hover {
-    background-color: #00cc00; /* Darker green */
+    background-color: #00cc00; 
 }
 
 /* QR Code container */
 #qr-code {
     margin-top: 20px;
     display: flex;
-    justify-content: center; /* Center QR code horizontally */
-    align-items: center; /* Center QR code vertically */
+    justify-content: center; 
+    align-items: center; 
     width: 100%;
 }
 
@@ -209,7 +209,7 @@ form input[type="submit"]:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #050505; /* Dark green */
+    background-color: #050505; 
     padding: 20px;
     border-radius: 8px;
     width: 100%;
@@ -217,9 +217,9 @@ form input[type="submit"]:hover {
 }
 
 #qr-decoding input[type="file"] {
-    background-color: #fff; /* White background */
-    color: #1ee438; /* Black text */
-    border: 1px solid #00ff22; /* Green border */
+    background-color: #fff; 
+    color: #1ee438;
+    border: 1px solid #00ff22; 
     border-radius: 4px;
     padding: 10px;
     margin: 5px 0;
@@ -235,5 +235,5 @@ form input[type="submit"]:hover {
 #qr-decoding p {
     margin-top: 20px;
     font-size: 1.2em;
-    color: #00ff22; /* Green text */
+    color: #00ff22; 
 }

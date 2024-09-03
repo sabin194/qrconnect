@@ -73,7 +73,7 @@ $qr_url = "https://your-domain.com/notification.php?user_id=" . $user_id;
     <script>
         // QR Code Generation
         document.getElementById('qr-generation-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
+            event.preventDefault(); 
 
             // Get user input
             const name = document.getElementById('name').value;
