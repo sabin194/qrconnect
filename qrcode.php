@@ -1,3 +1,4 @@
+//final ko final
 <?php
 // Start session
 session_start();
@@ -10,31 +11,64 @@ if (!isset($_SESSION['user_id'])) {
 
 // Get the user's name from session
 $user_name = $_SESSION['user_name'];
-$user_id = $_SESSION['user_id']; // Assuming you have this in session as well
+$user_id = $_SESSION['user_id'];
 
-// Generate the URL for the QR code, which will trigger the notification
-$qr_url = "https://your-domain.com/notification.php?user_id=" . $user_id;
+// Database connection parameters
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "qrsignup";
 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle form submission for QR code generation
+$qr_generated = false;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get user input
+    $name = $conn->real_escape_string($_POST['name']);
+    $address = $conn->real_escape_string($_POST['address']);
+    $contact = $conn->real_escape_string($_POST['contact']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $phone = $conn->real_escape_string($_POST['phone']);
+
+    // Combine details into a single string for QR code data, each on a new line
+    $qrcode_data = $name . "\n" . $address . "\n" . $contact . "\n" . $email . "\n" . $phone;
+
+    // Insert the QR code data into the database
+    $sql = "UPDATE users SET qr_data='$qrcode_data' WHERE id='$user_id'";
+
+    if ($conn->query($sql) === TRUE) {
+        $qr_generated = true;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Close the connection
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator & Decoder</title>
     <link rel="stylesheet" href="qrcode.css">
-    <!-- Load qrcode.min.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Load QRious library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrious@latest/dist/qrious.min.js"></script>
     <!-- Load jsQR library for QR code decoding -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsqr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
-
 <body>
     <section>
         <!-- Grid of spans for background animation -->
-        <!-- You can remove some spans if not needed for performance -->
         <?php for ($i = 0; $i < 100; $i++): ?>
             <span></span>
         <?php endfor; ?>
@@ -47,66 +81,61 @@ $qr_url = "https://your-domain.com/notification.php?user_id=" . $user_id;
 
         <main>
             <!-- QR Code Generation -->
-            <h2 style="color:green;" >Enter your details to generate a QR code</h2>
-            <form id="qr-generation-form">
-                <input type="text" id="name" placeholder="Name" required /><br />
-                <input type="text" id="address" placeholder="Address" required /><br />
-                <input type="text" id="contact" placeholder="Contact" required /><br />
-                <input type="email" id="email" placeholder="Email" required /><br />
-                <input type="tel" id="phone" placeholder="Phone Number" required /><br />
+            <h2 style="color:green;">Enter your details to generate a QR code</h2>
+            <form id="qr-generation-form" method="POST">
+                <input type="text" id="name" name="name" placeholder="Name" required /><br />
+                <input type="text" id="address" name="address" placeholder="Address" required /><br />
+                <input type="text" id="contact" name="contact" placeholder="Contact" required /><br />
+                <input type="email" id="email" name="email" placeholder="Email" required /><br />
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required /><br />
                 <input type="submit" value="Generate QR Code" />
             </form><br />
-            <div id="qr-code"></div>
+            
+            <div id="qr-container" style="text-align: center;">
+                <canvas id="qr-code" width="150" height="150"></canvas>
+            </div>
+
+            <!-- Display QR code if generated -->
+            <?php if ($qr_generated): ?>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const qrData = <?php echo json_encode($qrcode_data); ?>;
+                        const qr = new QRious({
+                            element: document.getElementById('qr-code'),
+                            value: qrData,
+                            size: 150, // Adjusted size for better appearance
+                            background: '#ffffff',
+                            foreground: '#000000',
+                            level: 'L'
+                        });
+                    });
+                </script>
+            <?php endif; ?>
 
             <!-- QR Code Decoding -->
-            <h2 style="color:green;" >Upload a QR code image to decode</h2>
-            <!-- Custom file input -->
-                <div class="custom-file-input">
-                    <input type="file" id="qr-image" accept="image/*" />
-                    <label for="qr-image">Choose Image</label>
-                </div>
-                <canvas id="qr-canvas" style="display:none;"></canvas>
-
+            <h2 style="color:green;">Upload a QR code image to decode</h2>
+            <div class="custom-file-input">
+                <input type="file" id="qr-image" accept="image/*" />
+                <label for="qr-image">Choose Image</label>
+            </div>
+            <canvas id="qr-canvas" style="display:none;"></canvas>
+            
+            <!-- This is where the decoded QR code data will be displayed -->
+            <div id="qr-result" style="margin-top: 20px; font-weight: bold; color: blue;"></div>
         </main>
     </section>
 
     <script>
-        // QR Code Generation
-        document.getElementById('qr-generation-form').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-
-            // Get user input
-            const name = document.getElementById('name').value;
-            const address = document.getElementById('address').value;
-            const contact = document.getElementById('contact').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-
-            // Combine details into a single string
-            const data = `Name: ${name}\nAddress: ${address}\nContact: ${contact}\nEmail: ${email}\nPhone: ${phone}`;
-
-            // Clear previous QR code
-            document.getElementById('qr-code').innerHTML = '';
-
-            // Generate new QR code
-            const qrcode = new QRCode(document.getElementById('qr-code'), {
-                text: data,
-                width: 128,
-                height: 128,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.L
-            });
-        });
-
         // QR Code Decoding
         document.getElementById('qr-image').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
+                console.log('File selected:', file);
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const img = new Image();
                     img.onload = function() {
+                        console.log('Image loaded and drawn on canvas.');
                         const canvas = document.getElementById('qr-canvas');
                         const ctx = canvas.getContext('2d');
                         canvas.width = img.width;
@@ -115,11 +144,20 @@ $qr_url = "https://your-domain.com/notification.php?user_id=" . $user_id;
 
                         // Decode the QR code
                         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        console.log('Image data captured.');
                         const code = jsQR(imageData.data, canvas.width, canvas.height);
 
                         if (code) {
-                            document.getElementById('qr-result').textContent = 'Decoded data: ' + code.data;
+                            console.log('QR code found:', code.data);
+                            const dataLines = code.data.split('\n');
+                            const labels = ['Name', 'Address', 'Contact', 'Email', 'Phone Number'];
+                            let formattedResult = '';
+                            for (let i = 0; i < dataLines.length; i++) {
+                                formattedResult += `${labels[i]}: ${dataLines[i]}<br>`;
+                            }
+                            document.getElementById('qr-result').innerHTML = 'Decoded data:<br>' + formattedResult;
                         } else {
+                            console.log('No QR code found.');
                             document.getElementById('qr-result').textContent = 'No QR code found.';
                         }
                     };
@@ -130,5 +168,4 @@ $qr_url = "https://your-domain.com/notification.php?user_id=" . $user_id;
         });
     </script>
 </body>
-
 </html>
